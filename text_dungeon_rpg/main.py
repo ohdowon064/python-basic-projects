@@ -126,19 +126,22 @@ class Dungeon:
             base_power = 5 + self.current_floor
             hp = random.randint(int(base_hp * 0.9), int(base_hp * 1.1))
             power = random.randint(int(base_power * 0.9), int(base_power * 1.1))
-            monster = Monster("슬라임", hp, power, 5 * self.current_floor)
+            name = random.choice(["슬라임", "고블린"])
+            monster = Monster(name, hp, power, 5 * self.current_floor)
         elif self.current_floor <= 7:
             base_hp = 50 + self.current_floor * 8
             base_power = 8 + self.current_floor
             hp = random.randint(int(base_hp * 0.9), int(base_hp * 1.1))
             power = random.randint(int(base_power * 0.9), int(base_power * 1.1))
-            monster = Monster("고블린", hp, power, 10 * self.current_floor)
+            name = random.choice(["슬라임", "고블린", "오크"])
+            monster = Monster(name, hp, power, 10 * self.current_floor)
         elif self.current_floor < self.max_floor:
             base_hp = 80 + self.current_floor * 12
             base_power = 12 + self.current_floor
             hp = random.randint(int(base_hp * 0.9), int(base_hp * 1.1))
             power = random.randint(int(base_power * 0.9), int(base_power * 1.1))
-            monster = Monster("오크", hp, power, 15 * self.current_floor)
+            name = random.choice(["고블린", "오크"])
+            monster = Monster(name, hp, power, 15 * self.current_floor)
         else:  # 마지막 10층 보스
             base_hp = 300
             base_power = 40

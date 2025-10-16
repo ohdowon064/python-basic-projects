@@ -2,7 +2,7 @@
 # 필수 라이브러리 설치해야 함.
 # pip install PyPDF2 pdf2docx
 
-# os와 glob 대신 pathlib의 Path 객체를 사용함.
+# pathlib의 Path 객체를 사용함.
 from pathlib import Path
 
 from pdf2docx import Converter
@@ -32,9 +32,12 @@ class PdfTool:
                 # 디렉토리가 아니거나 없으면 에러 발생시킴.
                 raise NotADirectoryError(f"유효한 디렉토리 경로가 아닙니다: {dir_path}")
 
-            # Path.glob('*.pdf'): 디렉토리 내의 모든 .pdf 파일을 찾아 리스트로 만듦.
-            # sorted(): 파일들을 이름순으로 정렬함.
-            pdf_files = sorted(dir_path.glob("*.pdf"))
+            pdf_files = []
+            # dir_path.iterdir()로 디렉토리 내 모든 항목을 순회함.
+            for file_path in sorted(dir_path.iterdir()):
+                # 조건문 추가: 파일이고(.is_file()), 확장자가 .pdf (대소문자 구분 없이)인 경우만 처리함.
+                if file_path.is_file() and file_path.suffix.lower() == ".pdf":
+                    pdf_files.append(file_path)
 
             if not pdf_files:
                 print("해당 디렉토리에 PDF 파일이 없습니다.")

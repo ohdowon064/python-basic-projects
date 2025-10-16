@@ -104,6 +104,52 @@ class Monster(Character):
         self.exp_reward = exp_reward
 
 
+class Dungeon:
+    """
+    던전의 상태를 관리하는 클래스임.
+    속성: 현재 층(current_floor), 최대 층(max_floor)
+    메서드: next_floor(), generate_monster(), is_cleared()
+    """
+
+    def __init__(self):
+        self.current_floor = 1
+        self.max_floor = 10
+
+    def next_floor(self):
+        self.current_floor += 1
+        print(f"\n던전 {self.current_floor}층으로 내려갔음.")
+
+    def generate_monster(self):
+        # 층이 깊어질수록 강한 몬스터가 나옴.
+        if self.current_floor <= 3:
+            monster = Monster(
+                "슬라임",
+                30 + self.current_floor * 5,
+                5 + self.current_floor,
+                5 * self.current_floor,
+            )
+        elif self.current_floor <= 7:
+            monster = Monster(
+                "고블린",
+                50 + self.current_floor * 8,
+                8 + self.current_floor,
+                10 * self.current_floor,
+            )
+        elif self.current_floor < self.max_floor:
+            monster = Monster(
+                "오크",
+                80 + self.current_floor * 12,
+                12 + self.current_floor,
+                15 * self.current_floor,
+            )
+        else:  # 마지막 10층 보스
+            monster = Monster("던전의 지배자 드래곤", 300, 40, 100)
+        return monster
+
+    def is_cleared(self):
+        return self.current_floor > self.max_floor
+
+
 # --- 함수(Function) 정의: 게임의 각 기능을 담당하는 부품 ---
 
 
@@ -111,6 +157,7 @@ def start_battle(player, monster):
     """
     전투를 진행하는 함수.
     플레이어와 몬스터 객체를 인자로 받음.
+    플레이어가 승리하면 True, 패배하거나 도망치면 False를 반환함.
     """
     print(f"\n야생의 {monster.name}이(가) 나타났다!")
 
@@ -138,7 +185,7 @@ def start_battle(player, monster):
 
             elif choice == "3":
                 print("무사히 도망쳤다.")
-                return  # 함수를 종료하여 전투를 끝냄.
+                return False  # 도망은 패배로 간주
 
             else:
                 print("잘못된 입력입니다.")
@@ -149,7 +196,7 @@ def start_battle(player, monster):
                 if not monster.is_alive():
                     print(f"{monster.name}을(를) 물리쳤다!")
                     player.gain_exp(monster.exp_reward)
-                    break
+                    return True  # 플레이어 승리
 
                 time.sleep(1)  # 잠시 멈춰서 게임 진행 속도를 조절함.
 
@@ -157,10 +204,12 @@ def start_battle(player, monster):
                 monster.attack(player)
                 if not player.is_alive():
                     print("눈앞이 깜깜해졌다...")
-                    break
+                    return False  # 플레이어 패배
 
         except Exception as e:
             print(f"예상치 못한 오류가 발생했습니다: {e}")
+
+    return False  # 비정상적인 경우 패배 처리
 
 
 # --- 메인 게임 실행 부분 ---
@@ -173,29 +222,39 @@ def main():
     player_name = input("플레이어의 이름을 입력하세요: ")
     # Player 클래스로 플레이어 객체를 생성함.
     player = Player(player_name, 100, 10)
+    # Dungeon 클래스로 던전 객체를 생성함.
+    dungeon = Dungeon()
 
-    print(f"\n용사 {player.name}님, 텍스트 던전 RPG에 오신 것을 환영합니다.")
+    print(f"\n용사 {player.name}님, 던전에 오신 것을 환영합니다.")
 
     # while 반복문: 게임의 메인 루프. 사용자가 종료를 원할 때까지 계속됨.
     while True:
         print("\n--- 메인 메뉴 ---")
-        menu = input("어디로 갈까? (1. 던전 탐험 | 2. 내 정보 보기 | 3. 종료)\n> ")
+        # 현재 던전 층수를 메뉴에 표시함.
+        menu = input(
+            f"어디로 갈까? (1. 던전 {dungeon.current_floor}층 탐험 | 2. 내 정보 보기 | 3. 종료)\n> "
+        )
 
         if menu == "1":
-            # 몬스터를 랜덤으로 생성함.
-            monster_list = [
-                Monster("슬라임", 30, 5, 5),
-                Monster("고블린", 50, 8, 10),
-                Monster("오크", 80, 12, 15),
-            ]
-            monster = random.choice(monster_list)
+            # 던전 객체를 통해 현재 층에 맞는 몬스터를 생성함.
+            monster = dungeon.generate_monster()
 
-            start_battle(player, monster)
+            battle_won = start_battle(player, monster)
 
             # 전투 후 플레이어의 생존 여부를 확인.
             if not player.is_alive():
                 print("\nGAME OVER")
                 break
+
+            # 전투에서 승리했을 경우에만 다음 층으로 이동함.
+            if battle_won:
+                dungeon.next_floor()
+                # 던전 클리어 여부 확인
+                if dungeon.is_cleared():
+                    print("\n마침내 던전의 지배자를 물리쳤다!")
+                    print("던전을 탈출하고 현실세계로 돌아왔습니다.")
+                    print("GAME CLEAR!")
+                    break
 
         elif menu == "2":
             player.show_status()
@@ -211,3 +270,4 @@ def main():
 # 이 스크립트 파일이 직접 실행될 때만 main() 함수를 호출함.
 if __name__ == "__main__":
     main()
+ㄴ

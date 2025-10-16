@@ -122,28 +122,29 @@ class Dungeon:
     def generate_monster(self):
         # 층이 깊어질수록 강한 몬스터가 나옴.
         if self.current_floor <= 3:
-            monster = Monster(
-                "슬라임",
-                30 + self.current_floor * 5,
-                5 + self.current_floor,
-                5 * self.current_floor,
-            )
+            base_hp = 30 + self.current_floor * 5
+            base_power = 5 + self.current_floor
+            hp = random.randint(int(base_hp * 0.9), int(base_hp * 1.1))
+            power = random.randint(int(base_power * 0.9), int(base_power * 1.1))
+            monster = Monster("슬라임", hp, power, 5 * self.current_floor)
         elif self.current_floor <= 7:
-            monster = Monster(
-                "고블린",
-                50 + self.current_floor * 8,
-                8 + self.current_floor,
-                10 * self.current_floor,
-            )
+            base_hp = 50 + self.current_floor * 8
+            base_power = 8 + self.current_floor
+            hp = random.randint(int(base_hp * 0.9), int(base_hp * 1.1))
+            power = random.randint(int(base_power * 0.9), int(base_power * 1.1))
+            monster = Monster("고블린", hp, power, 10 * self.current_floor)
         elif self.current_floor < self.max_floor:
-            monster = Monster(
-                "오크",
-                80 + self.current_floor * 12,
-                12 + self.current_floor,
-                15 * self.current_floor,
-            )
+            base_hp = 80 + self.current_floor * 12
+            base_power = 12 + self.current_floor
+            hp = random.randint(int(base_hp * 0.9), int(base_hp * 1.1))
+            power = random.randint(int(base_power * 0.9), int(base_power * 1.1))
+            monster = Monster("오크", hp, power, 15 * self.current_floor)
         else:  # 마지막 10층 보스
-            monster = Monster("던전의 지배자 드래곤", 300, 40, 100)
+            base_hp = 300
+            base_power = 40
+            hp = random.randint(int(base_hp * 0.9), int(base_hp * 1.1))
+            power = random.randint(int(base_power * 0.9), int(base_power * 1.1))
+            monster = Monster("던전의 지배자 드래곤", hp, power, 100)
         return monster
 
     def is_cleared(self):

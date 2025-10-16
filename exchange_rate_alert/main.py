@@ -4,7 +4,7 @@ import requests
 
 
 # 클래스(Class) 정의: 환율 정보와 관련된 기능을 담는 설계도
-class ExchangeRateViewer:
+class ExchangeRateAlert:
     """
     API를 통해 환율 정보를 가져오고 표시하는 기능을 담당하는 클래스임.
     - API_URL: 데이터를 가져올 서버의 주소
@@ -98,7 +98,7 @@ def main():
     프로그램의 메인 로직을 실행하는 함수.
     """
     # 클래스로부터 객체(Object)를 생성
-    viewer = ExchangeRateViewer()
+    viewer = ExchangeRateAlert()
 
     print("실시간 환율 정보 알리미에 오신 것을 환영합니다.")
 

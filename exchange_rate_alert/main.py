@@ -35,14 +35,14 @@ class ExchangeRateAlert:
             # JSON 형식의 응답 데이터를 파이썬 딕셔너리로 변환하여 반환함.
             return response.json()
 
-        except requests.exceptions.HTTPError as e:
+        except requests.HTTPError as e:
             # 존재하지 않는 통화 코드를 입력했을 때의 오류 처리
             if e.response.status_code == 404:
                 print(f"오류: '{base_currency}'는 유효하지 않은 통화 코드입니다.")
             else:
                 print(f"HTTP 오류가 발생했습니다: {e}")
             return None
-        except requests.exceptions.RequestException as e:
+        except requests.RequestException as e:
             # 인터넷 연결 문제 등 네트워크 관련 오류 처리
             print(f"네트워크 오류가 발생했습니다: {e}")
             return None
@@ -98,7 +98,7 @@ def main():
     프로그램의 메인 로직을 실행하는 함수.
     """
     # 클래스로부터 객체(Object)를 생성
-    viewer = ExchangeRateViewer()
+    viewer = ExchangeRateAlert()
 
     print("실시간 환율 정보 알리미에 오신 것을 환영합니다.")
 

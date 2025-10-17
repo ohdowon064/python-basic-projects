@@ -18,7 +18,7 @@ class Character:
         self.hp = hp  # 현재 체력
         self.power = power  # 공격력
 
-    # attack 메서드: 대상을 공격하는 기능임.
+    # 대상을 공격하는 기능임.
     def attack(self, target):
         # 공격력은 power 값 기준으로 랜덤하게 정해짐.
         damage = random.randint(self.power - 2, self.power + 2)
@@ -26,11 +26,11 @@ class Character:
         print(f"⚔️ {self.name}의 공격! {target.name}에게 {damage}의 데미지를 입혔음.")
         # f-string을 사용해 공격 로그를 실감 나게 출력함.
 
-    # is_alive 메서드: 캐릭터의 생존 여부(True/False)를 반환함.
+    # 캐릭터의 생존 여부(True/False)를 반환함.
     def is_alive(self):
         return self.hp > 0
 
-    # show_status 메서드: 현재 상태를 보여줌.
+    # 현재 상태를 보여줌.
     def show_status(self):
         print(f"[{self.name}] HP: {self.hp}/{self.max_hp}")
 
@@ -51,7 +51,7 @@ class Player(Character):
         self.max_mp = 30  # 최대 마나
         self.mp = 30  # 현재 마나
 
-    # use_skill 메서드: 스킬을 사용하는 기능임.
+    # 스킬을 사용하는 기능임.
     def use_skill(self, target):
         skill_cost = 10
         # if 조건문: 마나가 충분한지 확인함.
@@ -66,7 +66,7 @@ class Player(Character):
             print("MP가 부족하여 스킬을 사용할 수 없음.")
             return False  # 스킬 사용 실패
 
-    # gain_exp 메서드: 경험치를 얻고 레벨업을 처리함.
+    # 경험치를 얻고 레벨업을 처리함.
     def gain_exp(self, amount):
         self.exp += amount
         print(f"{amount}의 경험치를 획득했음. (현재 경험치: {self.exp}/{self.max_exp})")

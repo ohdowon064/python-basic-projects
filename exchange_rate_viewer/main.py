@@ -4,7 +4,7 @@ import requests
 
 
 # 클래스(Class) 정의: 환율 정보와 관련된 기능을 담는 설계도
-class ExchangeRateAlert:
+class ExchangeRateViewer:
     """
     API를 통해 환율 정보를 가져오고 표시하는 기능을 담당하는 클래스임.
     - API_URL: 데이터를 가져올 서버의 주소
@@ -13,7 +13,7 @@ class ExchangeRateAlert:
 
     # 클래스 변수: 모든 객체가 공유하는 값
     API_URL = "https://api.frankfurter.app/latest"
-    TARGET_CURRENCIES = ["KRW", "USD", "EUR", "JPY", "CNY", "ZWL"]
+    TARGET_CURRENCIES = ["KRW", "USD", "EUR", "JPY", "CNY"]
 
     # fetch_rates 메서드: API 서버에 환율 정보를 요청하고 결과를 반환함.
     def fetch_rates(self, base_currency):
@@ -71,6 +71,11 @@ class ExchangeRateAlert:
         except ValueError:
             formatted_date = date_str
 
+        # 기준 통화별 표시 단위를 저장하는 딕셔너리
+        display_units = {"KRW": 1000, "JPY": 100, "CNY": 10}
+        # 딕셔너리의 get() 메서드를 이용해 기준 통화의 표시 단위를 가져옴. 없으면 기본값 1을 사용.
+        base_unit = display_units.get(base, 1)
+
         print("\n" + "=" * 30)
         print(f" 기준 통화: {base}")
         print(f" 기준 날짜: {formatted_date}")
@@ -87,7 +92,9 @@ class ExchangeRateAlert:
             rate = rates.get(currency)
             # if 조건문: 해당 통화 정보가 있는지 확인
             if rate:
-                print(f"  1 {base} = {rate:.2f} {currency}")
+                # 기준 단위에 맞춰 환율을 재계산함.
+                adjusted_rate = rate * base_unit
+                print(f"  {base_unit} {base} = {adjusted_rate:.2f} {currency}")
 
         print("=" * 30)
 
@@ -98,7 +105,7 @@ def main():
     프로그램의 메인 로직을 실행하는 함수.
     """
     # 클래스로부터 객체(Object)를 생성
-    viewer = ExchangeRateAlert()
+    viewer = ExchangeRateViewer()
 
     print("실시간 환율 정보 알리미에 오신 것을 환영합니다.")
 
@@ -106,7 +113,7 @@ def main():
     while True:
         print("\n확인하고 싶은 기준 통화의 코드를 입력하세요.")
         base_currency = input(
-            " (예: KRW, USD, JPY... | 종료하려면 'q' 입력)\n> "
+            f" (예: {', '.join(viewer.TARGET_CURRENCIES)} | 종료하려면 'q' 입력)\n> "
         ).upper()
 
         if base_currency == "Q":

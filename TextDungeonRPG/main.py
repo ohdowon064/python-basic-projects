@@ -147,7 +147,7 @@ class Dungeon:
             base_power = 40
             hp = random.randint(int(base_hp * 0.9), int(base_hp * 1.1))
             power = random.randint(int(base_power * 0.9), int(base_power * 1.1))
-            monster = Monster("던전의 지배자 드래곤", hp, power, 100)
+            monster = Monster("[던전의 지배자] 드래곤 🐉", hp, power, 100)
         return monster
 
     def is_cleared(self):

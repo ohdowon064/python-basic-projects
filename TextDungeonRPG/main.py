@@ -23,7 +23,7 @@ class Character:
         # 공격력은 power 값 기준으로 랜덤하게 정해짐.
         damage = random.randint(self.power - 2, self.power + 2)
         target.hp -= damage
-        print(f"{self.name}의 공격! {target.name}에게 {damage}의 데미지를 입혔음.")
+        print(f"⚔️ {self.name}의 공격! {target.name}에게 {damage}의 데미지를 입혔음.")
         # f-string을 사용해 공격 로그를 실감 나게 출력함.
 
     # is_alive 메서드: 캐릭터의 생존 여부(True/False)를 반환함.

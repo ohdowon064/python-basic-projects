@@ -2,23 +2,6 @@
 
 이 저장소는 Python 기초를 학습할 수 있도록 만든 세 가지 미니 프로젝트를 포함하고 있습니다. 계속해서 추가할 예정입니다.
 
-## Python 필수 기초
-
-- print
-- input
-- f-string
-- 기본 자료형: int, float, str, bool
-- 산술연산자: +, -, *, /, //, %, **
-- 비교연산자: >, <, >=, <=, ==, !=
-- 논리연산자: and, or, not
-- 멤버십 연산자: in, not in
-- 조건문: if, elif, else
-- 반복문: for, while
-- 기본 자료구조: list, dict, set, tuple
-- 함수
-- 클래스
-- 예외처리
-
 
 ## 1. 환율 정보 뷰어 (ExchangeRateViewer)
 

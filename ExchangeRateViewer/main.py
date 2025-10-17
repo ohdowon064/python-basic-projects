@@ -15,7 +15,7 @@ class ExchangeRateViewer:
     API_URL = "https://api.frankfurter.app/latest"
     TARGET_CURRENCIES = ["KRW", "USD", "EUR", "JPY", "CNY"]
 
-    # fetch_rates 메서드: API 서버에 환율 정보를 요청하고 결과를 반환함.
+    # API 서버에 환율 정보를 요청하고 결과를 반환함.
     def fetch_rates(self, base_currency):
         """
         지정된 기본 통화를 기준으로 최신 환율 정보를 가져옴.
@@ -50,7 +50,7 @@ class ExchangeRateViewer:
             print(f"알 수 없는 오류가 발생했습니다: {e}")
             return None
 
-    # display_rates 메서드: 가져온 환율 정보를 보기 좋게 출력함.
+    # 가져온 환율 정보를 보기 좋게 출력함.
     def display_rates(self, data):
         """
         API로부터 받은 환율 데이터를 화면에 출력함.
